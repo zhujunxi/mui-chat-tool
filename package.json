@@ -1,0 +1,23 @@
+{
+  "name": "mui-chat-tool",
+  "version": "1.0.0",
+  "description": "a plugin for mui-chat",
+  "main": "js/mui-chat-tool.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "http-server -p 8088 -o"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhujunxi/mui-chat-tool.git"
+  },
+  "author": "zhujunxi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/zhujunxi/mui-chat-tool/issues"
+  },
+  "homepage": "https://github.com/zhujunxi/mui-chat-tool#readme",
+  "devDependencies": {
+    "http-server": "^0.11.1"
+  }
+}

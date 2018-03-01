@@ -5,18 +5,22 @@
        let chatTool = {
         init: function(options) {
             this.add(options.el)
-            this.addEvent(options.copy, options.del)
+            this.addEvent(options.el, options.copy, options.del)
         },
-        addEvent(copy, del) {
+        addEvent(el, copy, del) {
             let self = this
             let toolCopy = document.querySelector('.tool-copy')
         
             mui('.chat-tools').on('tap','.tool-copy', function() {
                 typeof copy == "function" && copy()
+                self.removeTools(el)
             })
             mui('.chat-tools').on('tap','.tool-del', function() {
                 typeof del == "function" && del()
-                self.removeMask()
+                self.removeTools(el)
+            })
+            mui('.chat-box').on('tap','.mask', function() {
+                self.removeTools(el)
             })
         },
         add(charMsg) {
@@ -39,10 +43,14 @@
             mask.className = 'mask'
             charMsg.parentNode.parentNode.appendChild(mask)
         },
-        removeMask() {
+        removeTools(el) {
+            // 移除chat-tool
+            let parent = el.parentNode
+            let chatTool = parent.querySelector('.chat-tools')
+            parent.removeChild(chatTool)
+            // 移除mask
             let chatBox = document.querySelector('.chat-box')
             let mask = document.querySelector('.mask')
-
             chatBox.removeChild(mask)
         }
     }

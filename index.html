@@ -53,13 +53,9 @@
   </div>
     <script src="./js/mui-chat-tool.js"></script>
     <script src="https://cdn.bootcss.com/mui/3.7.1/js/mui.min.js"></script>
-    <script>
 
-        function getStyle(element, params) {
-            let style = window.getComputedStyle(element)[params]
-            let pattern = /\D/g 
-            return Number(style.replace(pattern,''))
-        }
+    <script src="./js/utils.js"></script>
+    <script>
         mui.init({
             gestureConfig:{
                 longtap: true, //默认为false
