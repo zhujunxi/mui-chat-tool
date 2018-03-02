@@ -1,56 +1,62 @@
 /** 
-        * @Name : chatTool mui聊天界面操作
-        * @Author : zhujunxi
-        */
-       let chatTool = {
-        init: function(options) {
-            this.add(options.el)
-            this.addEvent(options.el, options.copy, options.del)
-        },
-        addEvent(el, copy, del) {
-            let self = this
-            let toolCopy = document.querySelector('.tool-copy')
-        
-            mui('.chat-tools').on('tap','.tool-copy', function() {
-                typeof copy == "function" && copy()
-                self.removeTools(el)
-            })
-            mui('.chat-tools').on('tap','.tool-del', function() {
-                typeof del == "function" && del()
-                self.removeTools(el)
-            })
-            mui('.chat-box').on('tap','.mask', function() {
-                self.removeTools(el)
-            })
-        },
-        add(charMsg) {
-            let msgListPadding = getStyle(charMsg.parentNode, 'padding')
-    
-            let msgWidth = charMsg.clientWidth
-            let msgTools = document.createElement('div');
-            msgTools.className = 'chat-tools'
-            msgTools.innerHTML = `
-                <span class='tool-copy'>复制</span>
-                <span class='tool-del'>删除</span>
-            `
-            msgTools.style.left = Math.max(
-                `${msgListPadding}`, 
-                `${(msgWidth / 2) + msgListPadding - 48}`
-            ) + 'px'
-            charMsg.parentNode.appendChild(msgTools)
+* @Name : chatTool mui聊天界面操作
+* @Author : zhujunxi
+*/
+let chatTool = {
+    init(options) { 
+        let chatBox = document.querySelector('.chat-box')
+        let chatBoxPaddingLeft = getStyle(chatBox, 'padding-left')
 
-            let mask = document.createElement('div')
-            mask.className = 'mask'
-            charMsg.parentNode.parentNode.appendChild(mask)
-        },
-        removeTools(el) {
-            // 移除chat-tool
-            let parent = el.parentNode
-            let chatTool = parent.querySelector('.chat-tools')
-            parent.removeChild(chatTool)
-            // 移除mask
-            let chatBox = document.querySelector('.chat-box')
-            let mask = document.querySelector('.mask')
-            chatBox.removeChild(mask)
-        }
+        let magList = options.el.parentNode
+        
+        let msgWidth = options.el.clientWidth
+        let msgPaddingLeft = getStyle(options.el, 'padding-left')
+        let chatToolsWidth = 100
+
+        let chatToolsWrap = document.createElement('div');
+        chatToolsWrap.className = 'chat-tools-wrap'
+        chatToolsWrap.innerHTML = `
+        <div class="chat-tools">
+            <span class='tool-copy'>复制</span>
+            <span class='tool-del'>删除</span>
+        </div>
+        `
+        magList.parentNode.appendChild(chatToolsWrap)
+        let chatTools = document.querySelector('.chat-tools')
+
+        chatTools.style.left = Math.max(
+            msgPaddingLeft + chatBoxPaddingLeft, 
+            msgWidth / 2 + msgPaddingLeft + chatBoxPaddingLeft - (chatToolsWidth / 2)
+        ) + 'px'
+
+        chatTools.style.top = magList.offsetTop + magList.offsetHeight + 'px'
+
+        this.addEvent(options.el, options.copy, options.del)
+    },
+    addEvent(el, copy, del) {
+        let self = this
+        let toolCopy = document.querySelector('.tool-copy')
+        let toolDel = document.querySelector('.tool-del')
+        let Mask = document.querySelector('.chat-tools-wrap')
+
+        toolCopy.addEventListener('tap',function(e) {
+            e.cancelBubble = true
+            typeof copy == "function" && copy(el.innerHTML)
+            self.removeTools()
+        }, false)
+        toolDel.addEventListener('tap',function(e) {
+            e.cancelBubble = true
+            typeof del == "function" && del(el)
+            self.removeTools()
+        }, false)
+        Mask.addEventListener('tap',function() {
+            self.removeTools()
+        }, false)
+    },
+    removeTools() {
+        // 移除chat-tool
+        let parent = document.querySelector('.chat-box')
+        let chatTool = parent.querySelector('.chat-tools-wrap')
+        parent.removeChild(chatTool)
     }
+}
