@@ -11,4 +11,4 @@ npm start
 ```
 
 ## preview
-![image](https://github.com/zhujunxi/manage-time/blob/master/preview/preview.png)
+![image](https://github.com/zhujunxi/mui-chat-tool/blob/master/preview/preview.png)
